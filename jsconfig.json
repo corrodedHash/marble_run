@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    //   "paths": {
+    //     "$libs": ["src/libs"],
+    //     "$libs/*": ["src/libs/*"],
+    //   }
+    "strict": true,
+    "checkJs": true
+  },
+  "include": ["src/**/*.js", "src/**/*.mjs"],
+  "exclude": ["node_modules", "**/node_modules", "dist"]
+}
