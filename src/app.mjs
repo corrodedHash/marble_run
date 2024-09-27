@@ -13,7 +13,7 @@ import { buildWorld, forceFields } from "./world.mjs";
 function spawnMarble() {
   const v = 0.0001 * (Math.random() - 0.5);
   const vy = 0.001 * Math.random();
-  const result = Bodies.circle(400, 200, 5, { force: { x: v, y: -vy } });
+  const result = Bodies.circle(400, 200, 5, { force: { x: v, y: -vy }, restitution: 0 });
   // Body.setMass(result, Math.random() / 10 + 0.01)
   return result;
 }
@@ -30,6 +30,7 @@ function runWorld() {
     options: {
       width: 800,
       height: 600,
+      showConvexHulls: true,
       // showAngleIndicator: true,
       // showCollisions: true,
       // showVelocity: true,
@@ -78,11 +79,11 @@ function runWorld() {
         } else {
           Body.applyForce(v, v.position, { x: 0, y: -0.0001 });
         }
-        if (v.position.x - fe.position.x > x_margin && v.velocity.x > -x_correction) {
-          Body.setVelocity(v,{x: -x_correction, y: v.velocity.y})
-        } else if (v.position.x - fe.position.x < -x_margin && v.velocity.x < x_correction) {
-          Body.setVelocity(v,{x: x_correction, y: v.velocity.y})
-        }
+        // if (v.position.x - fe.position.x > x_margin && v.velocity.x > -x_correction) {
+        //   Body.setVelocity(v,{x: -x_correction, y: v.velocity.y})
+        // } else if (v.position.x - fe.position.x < -x_margin && v.velocity.x < x_correction) {
+        //   Body.setVelocity(v,{x: x_correction, y: v.velocity.y})
+        // }
       });
     }
   });

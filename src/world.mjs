@@ -81,18 +81,16 @@ function walls() {
 function spikes() {
   const result = [
     Body.create({
-      friction: 0.1,
       position: { x: WORLD_WIDTH / 2, y: WORLD_HEIGHT - 35 },
       vertices: [
         { x: WORLD_WIDTH / 2 - 20, y: WORLD_HEIGHT },
         { x: WORLD_WIDTH / 2, y: WORLD_HEIGHT - 70 },
         { x: WORLD_WIDTH / 2 + 20, y: WORLD_HEIGHT },
       ],
-      render: { fillStyle: "red", opacity: 1, lineWidth: 0 },
+      render: { fillStyle: "blue", opacity: 1, lineWidth: 0 },
       isStatic: true,
     }),
     Body.create({
-      friction: 0.1,
       position: { x: WORLD_WIDTH / 2, y: WORLD_HEIGHT + 30 },
       vertices: [
         { x: 0, y: WORLD_HEIGHT + 100 },
@@ -110,6 +108,36 @@ function spikes() {
   });
   return result;
 }
+
+function topRamp() {
+  const result = [
+    Body.create({
+      vertices: [
+        { x: -20, y: 50 },
+        { x: -20, y: -10 },
+        { x: 70, y: -10 },
+      ],
+      position: { x: 10, y: 10 },
+      isStatic: true,
+      render: { fillStyle: "gray" },
+    }),
+    Body.create({
+      vertices: [
+        { x: 20, y: 50 },
+        { x: 20, y: -10 },
+        { x: -70, y: -10 },
+      ],
+      position: { x: WORLD_WIDTH - 10, y: 10 },
+      isStatic: true,
+      render: { fillStyle: "gray" },
+    }),
+  ];
+  result.forEach((v) => {
+    console.log(v.vertices);
+  });
+  return result;
+}
+
 export function buildWorld() {
-  return [...walls(), ...spikes()];
+  return [...walls(), ...spikes(), ...topRamp()];
 }
