@@ -1,6 +1,8 @@
-import { Body, Bodies, Events } from "matter-js";
+import { Body, Bodies, Svg } from "matter-js";
 
-const WORLD_WIDTH = 800;
+import FunnelSVG from "./assets/funnel.svg?raw";
+
+const WORLD_WIDTH = 1200;
 const BORDER_OVERLAP = -1;
 const WORLD_HEIGHT = 600;
 const WALL_WIDTH = 20;
@@ -132,10 +134,33 @@ function topRamp() {
       render: { fillStyle: "gray" },
     }),
   ];
-  result.forEach((v) => {
-    console.log(v.vertices);
-  });
   return result;
+}
+
+export async function funnels() {
+  /**
+   *
+   * @param {string} url
+   * @returns {Promise<Document>}
+   */
+  const loadSvg = async function (url) {
+    const raw = FunnelSVG;
+    return new window.DOMParser().parseFromString(raw, "image/svg+xml");
+  };
+  const f = await loadSvg("./assets/funnel.svg");
+  const paths = Array.from(f.querySelectorAll("path"));
+  console.log(paths);
+  const vertices = paths.map((v) => Svg.pathToVertices(v, 30));
+  console.log(vertices);
+
+  return Bodies.fromVertices(70, 90, vertices, {
+    isStatic: true,
+    render: {
+      fillStyle: 'blue',
+      // strokeStyle: color,
+      lineWidth: 0,
+    },
+  });
 }
 
 export function buildWorld() {

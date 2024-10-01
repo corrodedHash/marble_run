@@ -6,7 +6,8 @@
     //     "$libs/*": ["src/libs/*"],
     //   }
     "strict": true,
-    "checkJs": true
+    "checkJs": true,
+    "allowArbitraryExtensions": true
   },
   "include": ["src/**/*.js", "src/**/*.mjs"],
   "exclude": ["node_modules", "**/node_modules", "dist"]
