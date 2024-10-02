@@ -40,7 +40,13 @@ export function buildCore(position) {
         position.y + radius * Math.cos((s * (2 * Math.PI)) / sides),
         sidelength,
         height,
-        { isStatic: true }
+        {
+          isStatic: true,
+          render: {
+            lineWidth: 0,
+            fillStyle: "limegreen",
+          },
+        }
       );
       Body.rotate(b, -(s * 2 * Math.PI) / sides);
       result.push(b);

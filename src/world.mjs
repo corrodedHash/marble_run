@@ -113,26 +113,36 @@ function spikes() {
 
 function topRamp() {
   const result = [
-    Body.create({
-      vertices: [
-        { x: -20, y: 50 },
-        { x: -20, y: -10 },
-        { x: 70, y: -10 },
+    Bodies.fromVertices(
+      10,
+      10,
+      [
+        [
+          { x: -20, y: 50 },
+          { x: -20, y: -10 },
+          { x: 70, y: -10 },
+        ],
       ],
-      position: { x: 10, y: 10 },
-      isStatic: true,
-      render: { fillStyle: "gray" },
-    }),
-    Body.create({
-      vertices: [
-        { x: 20, y: 50 },
-        { x: 20, y: -10 },
-        { x: -70, y: -10 },
+      {
+        isStatic: true,
+        render: { fillStyle: "gray" },
+      }
+    ),
+    Bodies.fromVertices(
+      WORLD_WIDTH - 10,
+      10,
+      [
+        [
+          { x: 20, y: 50 },
+          { x: -70, y: -10 },
+          { x: 20, y: -10 },
+        ],
       ],
-      position: { x: WORLD_WIDTH - 10, y: 10 },
-      isStatic: true,
-      render: { fillStyle: "gray" },
-    }),
+      {
+        isStatic: true,
+        render: { fillStyle: "gray" },
+      }
+    ),
   ];
   return result;
 }
@@ -156,7 +166,7 @@ export async function funnels() {
   return Bodies.fromVertices(70, 90, vertices, {
     isStatic: true,
     render: {
-      fillStyle: 'blue',
+      fillStyle: "blue",
       // strokeStyle: color,
       lineWidth: 0,
     },

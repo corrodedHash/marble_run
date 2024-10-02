@@ -60,16 +60,41 @@ export function runWorld() {
   const f = forceFields();
   Composite.add(world, f);
   Composite.add(world, buildWorld());
-  Composite.add(world, buildCore({x: 100, y: 100}));
+  const left_core_position = { x: 200, y: 400 };
+  const right_core_position = {
+    x: render.options.width - left_core_position.x,
+    y: left_core_position.y,
+  };
+
+  const left_core = Composite.create({ bodies: buildCore(left_core_position) });
+  const right_core = Composite.create({
+    bodies: buildCore(right_core_position),
+  });
+  Composite.add(world, [left_core, right_core]);
   funnels().then((v) => Composite.add(world, v));
 
   /** @type {Body[]} */
   const marbles = [];
   let lastBallSpawn = 0;
 
+  Events.on(runner, "tick", ({ timestamp }) => {
+    Composite.rotate(
+      left_core,
+      -(2 * Math.PI) / 1000,
+      left_core_position,
+      true
+    );
+    Composite.rotate(
+      right_core,
+      (2 * Math.PI) / 1000,
+      right_core_position,
+      true
+    );
+  });
   Events.on(runner, "tick", ({ timestamp, source, name }) => {
+    if (marbles.length >= 100) return;
     const deltaMs = timestamp - lastBallSpawn;
-    const perSec = 0.1;
+    const perSec = 0.01;
     const remainder = Math.floor(deltaMs / (perSec * 1000));
     const newTimestamp = deltaMs % (perSec * 1000);
     for (let i = 0; i < remainder; i += 1) {
