@@ -11,6 +11,7 @@ import {
 
 import { buildWorld, forceFields, funnels } from "./world.mjs";
 import { ForceField } from "./force_field.mjs";
+import { buildCore } from "./core.mjs";
 
 function spawnMarble() {
   const v = 0.0001 * (Math.random() - 0.5);
@@ -20,9 +21,9 @@ function spawnMarble() {
     restitution: 0.7,
     density: 0.001,
     render: {
-      lineWidth:0,
-      fillStyle: 'gold'
-    }
+      lineWidth: 0,
+      fillStyle: "gold",
+    },
   });
   // Body.setMass(result, Math.random() / 10 + 0.01)
   return result;
@@ -35,7 +36,7 @@ export function runWorld() {
 
   // create renderer
   var render = Render.create({
-    element: document.body.querySelector('#box'),
+    element: document.body.querySelector("#box"),
     engine: engine,
     options: {
       width: 1200,
@@ -59,6 +60,7 @@ export function runWorld() {
   const f = forceFields();
   Composite.add(world, f);
   Composite.add(world, buildWorld());
+  Composite.add(world, buildCore({x: 100, y: 100}));
   funnels().then((v) => Composite.add(world, v));
 
   /** @type {Body[]} */
@@ -67,10 +69,11 @@ export function runWorld() {
 
   Events.on(runner, "tick", ({ timestamp, source, name }) => {
     const deltaMs = timestamp - lastBallSpawn;
-    const perSec = 0.01;
-    const remainder = Math.floor(deltaMs / (perSec * 1000))
-    for (let i = 0; i < remainder; i+= 1){
-      lastBallSpawn = timestamp
+    const perSec = 0.1;
+    const remainder = Math.floor(deltaMs / (perSec * 1000));
+    const newTimestamp = deltaMs % (perSec * 1000);
+    for (let i = 0; i < remainder; i += 1) {
+      lastBallSpawn = timestamp - newTimestamp;
       const m = spawnMarble();
       marbles.push(m);
       Composite.add(world, m);
